@@ -95,37 +95,37 @@ def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, 
                     print(batch_idx)
 
                 # Calculate accuracy clean samples
-                x_clean = x
+                clean_image = x
                 #### Check if TVR Defense is available
                 if defense:
                     ######################   DEFENSE STEPS  #######################
-                    TVR =  Total_Variation_Resurfacer(x_clean, block_size)
+                    TVR =  Total_Variation_Resurfacer(clean_image, block_size)
                     TVR.Image_to_Block()
                     TVR.calculate_TV_Score()
                     TVR.outlier_Detection()
                     TVR.obsfucated_Image()
-                    defended_clean_image = TVR.reconstructed_Image(netG)
+                    clean_image = TVR.reconstructed_Image(netG)
                 # Prediction
-                defended_clean_image = normalizer(defended_clean_image).to(device)
-                clean_pred = F.softmax(model(defended_clean_image).data, dim=1).data[0]
+                clean_image = normalizer(clean_image).to(device)
+                clean_pred = F.softmax(model(clean_image).data, dim=1).data[0]
                 clean_topk = torch.topk(clean_pred, k)[1]
                 if y in clean_topk:
                     correct_clean += 1
 
                 # Calculate accuracy over adversarially patched samples
-                x_adv = patch_applier(x.cpu()).to(device)
+                adv_image = patch_applier(x.cpu()).to(device)
                 # Check if TVR Defense is available
                 if defense:
                     ######################   DEFENSE STEPS  #######################
-                    TVR =  Total_Variation_Resurfacer(x_adv, block_size)
+                    TVR =  Total_Variation_Resurfacer(adv_image, block_size)
                     TVR.Image_to_Block()
                     TVR.calculate_TV_Score()
                     TVR.outlier_Detection()
                     TVR.obsfucated_Image()
-                    defended_adv_image = TVR.reconstructed_Image(netG)
+                    adv_image = TVR.reconstructed_Image(netG)
                 # Prediction
-                defended_adv_image = normalizer(defended_adv_image).to(device)
-                adv_pred = F.softmax(model(defended_adv_image).data, dim=1).data[0]
+                adv_image = normalizer(adv_image).to(device)
+                adv_pred = F.softmax(model(adv_image).data, dim=1).data[0]
                 adv_topk = torch.topk(adv_pred, k)[1]
                 if y in adv_topk:
                     correct_adv += 1  
