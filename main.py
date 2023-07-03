@@ -101,9 +101,10 @@ for block_size in blk_list:
   patch = patches[cls]
   target = targets[cls]
   print(patch_class[cls], target)
+  block_shape = (block_size, block_size)
 
-  NAT_ACC_NAIVE, ADVER_ACC_NAIVE, SUCCESS_NAIVE = test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, netG, defense=False)
-  NAT_ACC_DEF, ADVER_ACC_DEF, SUCCESS_DEF = test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, netG, defense=True)
+  NAT_ACC_NAIVE, ADVER_ACC_NAIVE, SUCCESS_NAIVE = test_Accuracy(test_loader, patch, info, target, model_names, k, block_shape, netG, defense=False)
+  NAT_ACC_DEF, ADVER_ACC_DEF, SUCCESS_DEF = test_Accuracy(test_loader, patch, info, target, model_names, k, block_shape, netG, defense=True)
 
   RES_SAVE_PATH = './results/' + patch_class[cls] + '_' + str(k) + '_blk_' + str(block_size) + '.csv'
 

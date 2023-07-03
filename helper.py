@@ -12,6 +12,7 @@ import pandas as pd
 # Import PyTorch libraries
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 # Import PyTorch vision libraries
 import torchvision
 from torchvision import datasets, models, transforms
@@ -62,7 +63,7 @@ def select_Model(model_name, gpu=True):
 
     return model
 
-def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, netG, defense):
+def test_Accuracy(test_loader, patch, info, target, model_names, k, block_shape, netG, defense):
     """Testing the accuracy of defense over the test-set"""
     # Initialize list for tracking the accuracy
     clean_acc = []
@@ -99,7 +100,7 @@ def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, 
                 #### Check if TVR Defense is available
                 if defense:
                     ######################   DEFENSE STEPS  #######################
-                    TVR =  Total_Variation_Resurfacer(clean_image, block_size)
+                    TVR =  Total_Variation_Resurfacer(clean_image, block_shape)
                     TVR.Image_to_Block()
                     TVR.calculate_TV_Score()
                     TVR.outlier_Detection()
@@ -117,7 +118,7 @@ def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, 
                 # Check if TVR Defense is available
                 if defense:
                     ######################   DEFENSE STEPS  #######################
-                    TVR =  Total_Variation_Resurfacer(adv_image, block_size)
+                    TVR =  Total_Variation_Resurfacer(adv_image, block_shape)
                     TVR.Image_to_Block()
                     TVR.calculate_TV_Score()
                     TVR.outlier_Detection()
@@ -132,11 +133,11 @@ def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, 
                 if target in adv_topk:
                     n_success += 1
 
-            clean_Acc.append(round(100*(correct_clean/n_samples),2))
-            adv_Acc.append(round(100*(correct_adv/n_samples),2))
-            success_Rate.append(round(100*(n_success / n_samples),2))
+            clean_acc.append(round(100*(correct_clean/n_samples),2))
+            adv_acc.append(round(100*(correct_adv/n_samples),2))
+            success_rate.append(round(100*(n_success / n_samples),2))
 
-    return clean_Acc, adv_Acc, success_Rate
+    return clean_acc, adv_acc, success_rate
 
 def result_Log(RES_SAVE_PATH, ROWS, COLS, NAT_ACC_NAIVE, ADVER_ACC_NAIVE, SUCCESS_NAIVE, NAT_ACC_DEF, ADVER_ACC_DEF, SUCCESS_DEF):
     """Log accuracy results (with and without TVR Defense) as a Dataframe into a .csv file"""
@@ -149,7 +150,7 @@ def result_Log(RES_SAVE_PATH, ROWS, COLS, NAT_ACC_NAIVE, ADVER_ACC_NAIVE, SUCCES
     # With TVR Defense
     result_df['NAT_ACC_DEF'] = NAT_ACC_DEF
     result_df['ADVER_ACC_DEF'] = ADVER_ACC_DEF
-    result_df['SUCCESS_DEF'] = SUCCESS_DE
+    result_df['SUCCESS_DEF'] = SUCCESS_DEF
 
     print(result_df)
     # Save DataFrame as a CSV file

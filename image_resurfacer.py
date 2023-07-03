@@ -1,5 +1,9 @@
-# Importing general libraries
+# Import general libraries
 import numpy as np
+
+# Import PyTorch
+import torch
+import torchvision
 
 # Importing library to calculate the total variation loss (NOTE: ensure installation first)
 from torchmetrics import TotalVariation
@@ -23,8 +27,8 @@ class Total_Variation_Resurfacer:
         else:
             self.block_width = block_width
         # Number of blocks in the Image Block-set (instance member)
-        self.image_area = self.image_length*self.image_width
-        self.block_area = self.block_length*self.block_width
+        image_area = self.image_length*self.image_width
+        block_area = self.block_length*self.block_width
         self.num_blocks = int(image_area/block_area)
 
 
@@ -36,9 +40,9 @@ class Total_Variation_Resurfacer:
         """Convert the image into a channel-wise Block-set"""
         # NOTE: Each block acts as Neighbourhood in TV-loss calculation
         # Channel-wise dummy Block-set generation
-        self.red_blockset = torch.zeros((num_blocks, self.block_length, self.block_width))
-        self.green_blockset = torch.zeros((num_blocks, self.block_length, self.block_width))
-        self.blue_blockset = torch.zeros((num_blocks, self.block_length, self.block_width))
+        self.red_blockset = torch.zeros((self.num_blocks, self.block_length, self.block_width))
+        self.green_blockset = torch.zeros((self.num_blocks, self.block_length, self.block_width))
+        self.blue_blockset = torch.zeros((self.num_blocks, self.block_length, self.block_width))
 
         # Channel-wise Image Block-set generation
         for b in range(self.num_blocks):
@@ -93,19 +97,19 @@ class Total_Variation_Resurfacer:
         Q3 = np.percentile(self.red_tvlist, high_percentile)
         IQR = Q3 - Q1
         upper = Q3 + 1.5*IQR
-        red_outlierflag = np.where(self.red_tvlist > upper)[0]
+        self.red_outlierflag = np.where(self.red_tvlist > upper)[0]
         # GREEN
         Q1 = np.percentile(self.green_tvlist, low_percentile)
         Q3 = np.percentile(self.green_tvlist, high_percentile)
         IQR = Q3 - Q1
         upper = Q3 + 1.5*IQR  
-        green_outlierflag = np.where(self.green_tvlist > upper)[0]
+        self.green_outlierflag = np.where(self.green_tvlist > upper)[0]
         # BLUE
         Q1 = np.percentile(self.blue_tvlist, low_percentile)
         Q3 = np.percentile(self.blue_tvlist, high_percentile)
         IQR = Q3 - Q1
         upper = Q3 + 1.5*IQR
-        blue_outlierflag = np.where(self.blue_tvlist > upper)[0]
+        self.blue_outlierflag = np.where(self.blue_tvlist > upper)[0]
 
 
     # STAGE: 4
@@ -125,19 +129,19 @@ class Total_Variation_Resurfacer:
                 for j in range(self.block_width):
                     # NOTE: Divide by 255 to convert image from [0, 255] to [0, 1] back to original form
                     # RED
-                    if b in red_outlierflag:
+                    if b in self.red_outlierflag:
                         flag=1
                     else:
                         self.cropped_image[0][0][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
                             = self.red_blockset[b][i][j]/255
                     # GREEN
-                    if b in green_outlier_flag:
+                    if b in self.green_outlierflag:
                         flag=1
                     else:
                         self.cropped_image[0][1][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
                             = self.green_blockset[b][i][j]/255
                     # BLUE
-                    if b not in blue_outlierflag:
+                    if b in self.blue_outlierflag:
                         flag=1
                     else:
                         self.cropped_image[0][2][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
