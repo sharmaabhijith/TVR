@@ -22,6 +22,10 @@ from utils.utils import set_all_seed
 from utils.utils import target_transforms
 from transforms.apply_patch import ApplyPatch
 
+# Import custom defined modules
+from GAN import Generator, Discriminator
+from image_resurfacer import Total_Variation_Resurfacer
+
 set_all_seed(42)
 # Assigning device as GPU if available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -35,7 +39,7 @@ normalizer = Normalize(mean=[0.485, 0.456, 0.406],
                        std=[0.229, 0.224, 0.225])
 
 def select_Model(model_name, gpu=True):
-"""Assign the desired pre-trained model and load it onto GPU"""
+    """Assign the desired pre-trained model and load it onto GPU"""
     print(model_name)
     # Assign pre-trained model
     model_name = model_name.lower()
@@ -54,7 +58,7 @@ def select_Model(model_name, gpu=True):
     model.eval()
     # Load model onto the GPU
     if gpu:
-    model = model.to(device)
+        model = model.to(device)
 
     return model
 
@@ -94,9 +98,16 @@ def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, 
                 x_clean = x
                 #### Check if TVR Defense is available
                 if defense:
-                    x_clean = total_Variation_Defense(x_clean, block_size, netG)
-                x_clean = normalizer(x_clean).to(device)
-                clean_pred = F.softmax(model(x_clean).data, dim=1).data[0]
+                    ######################   DEFENSE STEPS  #######################
+                    TVR =  Total_Variation_Resurfacer(x_clean, block_size)
+                    TVR.Image_to_Block()
+                    TVR.calculate_TV_Score()
+                    TVR.outlier_Detection()
+                    TVR.obsfucated_Image()
+                    defended_clean_image = TVR.reconstructed_Image(netG)
+                # Prediction
+                defended_clean_image = normalizer(defended_clean_image).to(device)
+                clean_pred = F.softmax(model(defended_clean_image).data, dim=1).data[0]
                 clean_topk = torch.topk(clean_pred, k)[1]
                 if y in clean_topk:
                     correct_clean += 1
@@ -105,9 +116,16 @@ def test_Accuracy(test_loader, patch, info, target, model_names, k, block_size, 
                 x_adv = patch_applier(x.cpu()).to(device)
                 # Check if TVR Defense is available
                 if defense:
-                    x_adv = total_Variation_Defense(x_adv, block_size, netG)
-                x_adv = normalizer(x_adv).to(device)
-                adv_pred = F.softmax(model(x_adv).data, dim=1).data[0]
+                    ######################   DEFENSE STEPS  #######################
+                    TVR =  Total_Variation_Resurfacer(x_adv, block_size)
+                    TVR.Image_to_Block()
+                    TVR.calculate_TV_Score()
+                    TVR.outlier_Detection()
+                    TVR.obsfucated_Image()
+                    defended_adv_image = TVR.reconstructed_Image(netG)
+                # Prediction
+                defended_adv_image = normalizer(defended_adv_image).to(device)
+                adv_pred = F.softmax(model(defended_adv_image).data, dim=1).data[0]
                 adv_topk = torch.topk(adv_pred, k)[1]
                 if y in adv_topk:
                     correct_adv += 1  

@@ -51,7 +51,7 @@ class Total_Variation_Resurfacer:
 
 
     # STAGE: 2
-    def total_Variation_Score(self):
+    def calculate_TV_Score(self):
         """Calculate total variation loss over each block in the Image Block-set"""
         tv = TotalVariation() # Off-the-shelf total variation loss from  torchmetrics 
         self.red_tvlist = []
@@ -125,16 +125,22 @@ class Total_Variation_Resurfacer:
                 for j in range(self.block_width):
                     # NOTE: Divide by 255 to convert image from [0, 255] to [0, 1] back to original form
                     # RED
-                    flag=1 if b in red_outlierflag \
-                            else self.cropped_image[0][0][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
+                    if b in red_outlierflag:
+                        flag=1
+                    else:
+                        self.cropped_image[0][0][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
                             = self.red_blockset[b][i][j]/255
                     # GREEN
-                    flag=1 if b in green_outlier_flag \
-                            else self.cropped_image[0][1][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
+                    if b in green_outlier_flag:
+                        flag=1
+                    else:
+                        self.cropped_image[0][1][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
                             = self.green_blockset[b][i][j]/255
                     # BLUE
-                    flag=1 if b not in blue_outlierflag \
-                            else self.cropped_image[0][2][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
+                    if b not in blue_outlierflag:
+                        flag=1
+                    else:
+                        self.cropped_image[0][2][int(b/num_blocks_per_col)*self.block_length+i][int(b%num_blocks_per_row)*self.block_width+j] \
                             = self.blue_blockset[b][i][j]/255
 
                     # Create Mask based on the cropped image
@@ -150,6 +156,8 @@ class Total_Variation_Resurfacer:
         self.generated_image = generatorNet(self.cropped_image)
         # Hadamard Product
         self.reconstructed_image = torch.mul((1-self.mask), self.cropped_image) + torch.mul(self.mask, self.generated_image)
+
+        return self.reconstructed_image
 
 
 

@@ -6,7 +6,7 @@ import torch.nn as nn
 class Generator(nn.Module):
     """GENERATOR MODEL"""
     def __init__(self):
-        super(generator,self).__init__()
+        super(Generator,self).__init__()
         # ENCODER
         self.t1=nn.Sequential( nn.Conv2d(in_channels=3,out_channels=64,kernel_size=(4,4),stride=2,padding=1),
                 nn.LeakyReLU(0.2))
@@ -55,7 +55,7 @@ class Generator(nn.Module):
 class Discriminator(nn.Module):
     """DISCRIMINATOR MODEL"""
     def __init__(self):
-        super(discriminator,self).__init__()
+        super(Discriminator,self).__init__()
         self.t1=nn.Sequential(nn.Conv2d(in_channels=3,out_channels=16,kernel_size=(4,4),stride=2,padding=1),
                 nn.LeakyReLU(0.2))
         self.t2=nn.Sequential(nn.Conv2d(in_channels=16,out_channels=32,kernel_size=(4,4),stride=2,padding=1),

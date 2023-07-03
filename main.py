@@ -5,6 +5,8 @@ from __future__ import print_function, division
 import os
 import sys
 import math
+import gzip
+import pickle
 import random
 import numpy as np
 import pandas as pd
@@ -77,18 +79,20 @@ test_loader = DataLoader(test_dataset, batch_size=1, sampler=SubsetRandomSampler
 # Metrics to Evaluate TVR
 COLS = ['NAT_ACC_NAIVE', 'ADVER_ACC_NAIVE', 'SUCCESS_NAIVE', 'NAT_ACC_DEF',  'ADVER_ACC_DEF', 'SUCCESS_DEF']
 # CNN Models List
-ROWS = ['alexnet', 'resnet18', 'squeezenet', 'vgg16', 'googlenet', 'inception_v3']
+#ROWS = ['alexnet', 'resnet18', 'squeezenet', 'vgg16', 'googlenet', 'inception_v3']
+ROWS = ['resnet18']
 # ImageNet-Patch Benchmark - Adversarial Patch List
 patch_class = ['soap_dispenser', 'cornet', 'plate', 'banana', 'cup', 'typewriter', 'electric_guitar', 'hair_spray', 'sock', 'cellular_telephone']
 model_names = ROWS
 # Top-k Accuracy 
 k=1
 # 
-blk_list = [7, 14, 28, 56, 112]
+#blk_list = [7, 14, 28, 56, 112]
+blk_list = [28]
 cls = 1
 # Load Generator Model for image inpainting
 PATH = './Model/netG.pt'
-netG = generator()
+netG = Generator()
 netG.load_state_dict(torch.load(PATH))
 netG.eval()
 
