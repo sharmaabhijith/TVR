@@ -39,7 +39,7 @@ from GAN import Generator, Discriminator
 
 
 # Assign device as GPU if available
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 
 set_all_seed(42)
 
@@ -91,7 +91,7 @@ k=1
 blk_list = [28]
 cls = 1
 # Load Generator Model for image inpainting
-PATH = './Model/netG.pt'
+PATH = './GAN_model/netG.pt'
 netG = Generator()
 netG.load_state_dict(torch.load(PATH))
 netG.eval()
