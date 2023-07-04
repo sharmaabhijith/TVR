@@ -61,7 +61,7 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
 - [ImageNet-Patch BenchMark Dataset](https://github.com/pralab/ImageNet-Patch)
     - (The benchmark adversarial patches are already imported so you do not have to do anything)
 
-## Citations
+## :newspaper: Citations
 
 If you find our work useful in your research, please consider citing:
 
