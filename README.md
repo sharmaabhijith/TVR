@@ -15,7 +15,7 @@ Code for "[Assist Is Just as Important as the Goal: Image Resurfacing to Aid Mod
 5. The TVR is an image-cleansing method that processes images to remove probable adversarial regions.
 6. Nullifies the influence of patches in a single image scan with no prior assumption on the number of patches. 
 
-### Demo and Results
+### 🔴: Demo
 
 <img src="./Figures/demo.PNG" width="650" height="280" /> 
 
