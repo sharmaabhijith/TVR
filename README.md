@@ -17,7 +17,7 @@ Code for "[Assist Is Just as Important as the Goal: Image Resurfacing to Aid Mod
 
 ### :chart_with_upwards_trend: Demo
 
-<img src="./Figures/demo.PNG" width="650" height="280" /> 
+<img src="./Figures/demo.PNG" width="630" height="280" /> 
 
 ## :page_with_curl: Requirements
 
