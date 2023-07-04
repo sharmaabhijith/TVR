@@ -5,7 +5,7 @@ By [Abhijith Sharma](https://www.linkedin.com/in/abhijith-sharma/), [Phil Munz](
 ## Framework
 Code for "[Assist Is Just as Important as the Goal: Image Resurfacing to Aid Model’s Robust Prediction]()" submitted in WACV 2024. 
 
-<img src="./Figures/TVD.PNG" width="800" height="300" /> 
+<img src="./Figures/TVD.PNG" width="700" height="280" /> 
 
 **Takeaways**: 
 1. Adversarial patches threaten visual AI models in the real world.
@@ -17,7 +17,7 @@ Code for "[Assist Is Just as Important as the Goal: Image Resurfacing to Aid Mod
 
 ### Demo and Results
 
-<img src="./Figures/demo.PNG" width="700" height="300" /> 
+<img src="./Figures/demo.PNG" width="700" height="280" /> 
 
 ## :page_with_curl: Requirements
 
