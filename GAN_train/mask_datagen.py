@@ -34,7 +34,7 @@ from image_resurfacer import Total_Variation_Resurfacer
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Load the patches
-with gzip.open(os.path.join(os.getcwd(), "assets/imagenet_patch.gz"), 'rb') as f:
+with gzip.open(os.path.join(os.getcwd(), "../assets/imagenet_patch.gz"), 'rb') as f:
     imagenet_patch = pickle.load(f)
 patches, targets, info = imagenet_patch
 

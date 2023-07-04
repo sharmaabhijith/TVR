@@ -72,7 +72,6 @@ try:
     os.makedirs("Images/train/cropped")
     os.makedirs("Images/train/real")
     os.makedirs("Images/train/recon")
-    os.makedirs("Model")
 except OSError:
     pass
 
@@ -179,5 +178,5 @@ for epoch in range(resume_epoch,epochs):
             vutils.save_image(input_cropped.data,'Images/train/cropped/cropped_samples_epoch_%03d.png' % (epoch))
             vutils.save_image(recon_image.data,'Images/train/recon/recon_center_samples_epoch_%03d.png' % (epoch))
 
-torch.save(netG.state_dict(), './Model/netG.pt')
+torch.save(netG.state_dict(), '../GAN_model/netG.pt')
 
