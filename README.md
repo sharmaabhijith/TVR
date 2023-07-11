@@ -65,7 +65,7 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
     └── visualization.py             #utils for visualization
 ```
 
-## :open_book: How to Run
+## :bar_chart: How to Run
 
 ```shell
 # --cnn_model: Choose from ['alexnet', 'resnet18', 'squeezenet', 'vgg16', 'googlenet', 'inception_v3']
