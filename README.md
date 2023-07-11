@@ -29,18 +29,18 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
 ├── README.md                        #this file 
 ├── requirement.text                 #required package
 |
-├── helper.py                        #this file 
-├── image_resurfacer.py              #required package
-├── main.py                          #this file 
+├── helper.py                        #helper functions to test and save results
+├── image_resurfacer.py              #defense algorithm for image processing
+├── main.py                          #main function to run the defense
 |
-├── Figures                          #this file 
-├── GAN_Model                        #required package
-├── GAN_Train                        #example command to run the code
-|   ├── mask_data                    #utils for constructing models and data loaders
-|   ├── real_data                    #utils for PatchCleanser defenses
-|   ├── GAN.py                       #utils for constructing models and data loaders
-|   ├── inpaint.py                   #utils for PatchCleanser defenses
-|   └── mask_datagen.py              #utils for masked model training                        
+├── Figures                          #figures of the framework 
+├── GAN_Model                        #trained GAN model(.pt) for image inpainting
+├── GAN_Train                        #scripts to train GAN model
+|   ├── mask_data                    #masked data created using `mask_datagen.py`
+|   ├── real_data                    #original data
+|   ├── GAN.py                       #GAN architecture
+|   ├── inpaint.py                   #GAN training
+|   └── mask_datagen.py              #data generation for GAN training                        
 | 
 ├── assets                           #PatchCleanser: certify robustness via two-mask correctness
 |   ├── data                         #utils for constructing models and data loaders
