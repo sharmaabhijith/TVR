@@ -27,36 +27,38 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
 
 ```shell
 ├── README.md                        #this file 
-├── requirement.txt                  #required package
-├── example_cmd.sh                   #example command to run the code
-| 
-├── pc_certification.py              #PatchCleanser: certify robustness via two-mask correctness 
-├── pc_clean_acc.py                  #PatchCleanser: evaluate clean accuracy and per-example inference time
-| 
-├── vanilla_clean_acc.py             #undefended vanilla models: evaluate clean accuracy and per-example inference time
-├── train_model.py                   #train undefended vanilla models for different datasets
-| 
-├── utils
-|   ├── setup.py                     #utils for constructing models and data loaders
-|   ├── defense.py                   #utils for PatchCleanser defenses
-|   └── cutout.py                    #utils for masked model training
+├── requirement.text                 #required package
 |
-├── misc
-|   ├── reproducibility.md           #detailed instructions for reproducing paper results
-|   ├── pc_mr.py                     #script for minority report (Figure 9)
-|   └── pc_multiple.py               #script for multiple patch shapes and multiple patches (Table 4)
-| 
-├── data   
-|   ├── imagenet                     #data directory for imagenet
-|   ├── imagenette                   #data directory for imagenette
-|   ├── cifar                        #data directory for cifar-10
-|   ├── cifar100                     #data directory for cifar-100
-|   ├── flower102                    #data directory for flower102
-|   └── svhn                         #data directory for svhn
+├── helper.py                        #this file 
+├── image_resurfacer.py              #required package
+├── main.py                          #this file 
 |
-└── checkpoints                      #directory for checkpoints
-    ├── README.md                    #details of checkpoints
-    └── ...                          #model checkpoints
+├── Figures                          #this file 
+├── GAN_Model                        #required package
+├── GAN_Train                        #example command to run the code
+|   ├── mask_data                    #utils for constructing models and data loaders
+|   ├── real_data                    #utils for PatchCleanser defenses
+|   ├── GAN.py                       #utils for constructing models and data loaders
+|   ├── inpaint.py                   #utils for PatchCleanser defenses
+|   └── mask_datagen.py              #utils for masked model training                        
+| 
+├── assets                           #PatchCleanser: certify robustness via two-mask correctness 
+├── multi_patch                      #PatchCleanser: evaluate clean accuracy and per-example inference time
+|   ├── ResNet18                     #utils for PatchCleanser defenses
+|   └── VGG16                        #utils for masked model training
+|
+├── results
+├── single_patch                     #undefended vanilla models: evaluate clean accuracy and per-example inference time
+|   ├── ResNet18                     #utils for PatchCleanser defenses
+|   └── VGG16                        #utils for masked model training
+|
+├── transforms                       #train undefended vanilla models for different datasets
+|   ├── apply_patch.py               #utils for PatchCleanser defenses
+|   └── my_random_affine.py          #utils for masked model training
+|
+└── utils                            #directory for checkpoints
+    ├── utils.py                     #utils for constructing models and data loaders
+    └── visualization.py             #utils for masked model training
 ```
 
 ## :open_book: Datasets
