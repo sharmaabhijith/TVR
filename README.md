@@ -36,33 +36,33 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
 ├── Figures                          #figures of the framework 
 ├── GAN_Model                        #trained GAN model(.pt) for image inpainting
 ├── GAN_Train                        #scripts to train GAN model
-|   ├── mask_data                    #masked data created using `mask_datagen.py`
+|   ├── mask_data                    #masked data created using `mask_datagen.py'
 |   ├── real_data                    #original data
 |   ├── GAN.py                       #GAN architecture
 |   ├── inpaint.py                   #GAN training
 |   └── mask_datagen.py              #data generation for GAN training                        
 | 
-├── assets                           #PatchCleanser: certify robustness via two-mask correctness
+├── assets                           #assets related to data and benchmark adversarial patches
 |   ├── data                         #utils for constructing models and data loaders
 |   ├── val                          #utils for PatchCleanser defenses
-|   └── imagenet_patch.gz            #utils for masked model training
+|   └── imagenet_patch.gz            #ImageNet-Patch Benchmark patched
 |
-├── multi_patch                      #PatchCleanser: evaluate clean accuracy and per-example inference time
-|   ├── ResNet18                     #utils for PatchCleanser defenses
-|   └── VGG16                        #utils for masked model training
+├── multi_patch                      #saved self-trained multiple adversarial patches 
+|   ├── ResNet18                     
+|   └── VGG16                        
 |
-├── results
-├── single_patch                     #undefended vanilla models: evaluate clean accuracy and per-example inference time
-|   ├── ResNet18                     #utils for PatchCleanser defenses
-|   └── VGG16                        #utils for masked model training
+├── results                          #results of the testings as .csv files
+├── single_patch                     #saved self-trained single adversarial patches 
+|   ├── ResNet18                     
+|   └── VGG16                        
 |
-├── transforms                       #train undefended vanilla models for different datasets
-|   ├── apply_patch.py               #utils for PatchCleanser defenses
-|   └── my_random_affine.py          #utils for masked model training
+├── transforms                       #Imported from ImageNet-Patch Benchmark repo
+|   ├── apply_patch.py               #functions for patch application over image
+|   └── my_random_affine.py          #functions for patch's affine transformations
 |
-└── utils                            #directory for checkpoints
+└── utils                            #Imported from ImageNet-Patch Benchmark repo
     ├── utils.py                     #utils for constructing models and data loaders
-    └── visualization.py             #utils for masked model training
+    └── visualization.py             #utils for visualization
 ```
 
 ## :open_book: Datasets
