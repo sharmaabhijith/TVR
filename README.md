@@ -65,6 +65,17 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
     └── visualization.py             #utils for visualization
 ```
 
+## :open_book: How to Run
+
+```shell
+# --cnn_model: Choose from ['alexnet', 'resnet18', 'squeezenet', 'vgg16', 'googlenet', 'inception_v3']
+# --adversarial_patch: Choose from ['soap_dispenser', 'cornet', 'plate', 'banana', 'cup', 'typewriter', 'electric_guitar', 'hair_spray', 'sock', 'cellular_telephone']
+# --top_k: Chose between top-1, top-3 and top-10 accuracy
+# --block_size: Choose from [7, 14, 28, 56, 112]
+
+python3 main.py --cnn_model resnet18 --adversarial_patch banana --top_k 3 --block_size 28
+```
+
 ## :open_book: Datasets
 
 - [ImageNet](https://image-net.org/download.php) (ILSVRC2012)
