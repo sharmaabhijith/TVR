@@ -42,7 +42,11 @@ Experiments were done with PyTorch 1.7.0 and timm 0.4.12. The complete list of r
 |   ├── inpaint.py                   #utils for PatchCleanser defenses
 |   └── mask_datagen.py              #utils for masked model training                        
 | 
-├── assets                           #PatchCleanser: certify robustness via two-mask correctness 
+├── assets                           #PatchCleanser: certify robustness via two-mask correctness
+|   ├── data                         #utils for constructing models and data loaders
+|   ├── val                          #utils for PatchCleanser defenses
+|   └── imagenet_patch.gz            #utils for masked model training
+|
 ├── multi_patch                      #PatchCleanser: evaluate clean accuracy and per-example inference time
 |   ├── ResNet18                     #utils for PatchCleanser defenses
 |   └── VGG16                        #utils for masked model training
