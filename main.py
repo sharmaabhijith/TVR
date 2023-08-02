@@ -102,7 +102,7 @@ patch_class = ['soap_dispenser', 'cornet', 'plate', 'banana', 'cup', 'typewriter
 # Load Generator Model for image inpainting
 PATH = './GAN_model/netG.pt'
 netG = Generator()
-netG.load_state_dict(torch.load(PATH))
+netG.load_state_dict(torch.load(PATH, map_location=device))
 netG.eval()
 
 
