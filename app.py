@@ -51,7 +51,7 @@ netG.eval()
 
 ##-------------------------------------------------------------------------------------------------------------------------------------------------------##
 
-st.set_page_config(layout="wide", page_title="Image Background Remover")
+st.set_page_config(layout="wide", page_title="TVR Demo")
 
 st.write("# Total Variation based Image Resurfacer (TVR)")
 st.write("## Who am I?")
@@ -84,9 +84,10 @@ def convert_img_2_tensor(image):
     return img_tensor
 
 def convert_tensor_2_img(img_tensor):
-    print(img_tensor.shape)
-    image = Image.fromarray(img_tensor[0].cpu().detach().numpy())
+    #image = Image.fromarray(img_tensor[0].cpu().detach().numpy())
     #img.save("faces.png")
+    T = transforms.ToPILImage()
+    image = T(img_tensor)
     return image
 
 
@@ -109,11 +110,11 @@ def fix_image(upload, block_size, netG):
 
     img_tensor = convert_img_2_tensor(image)
     cleansed_img_tensor = cleanse_image(img_tensor, block_size, netG)
-    cleansed_image = convert_tensor_2_img(cleansed_img_tensor)
+    cleansed_image = convert_tensor_2_img(cleansed_img_tensor[0])
     col2.write("### Cleansed Image :wrench:")
     col2.image(cleansed_image)
     st.sidebar.markdown("\n")
-    st.sidebar.download_button("DOWNLOAD CLEANSED IMAGE", convert_image(fixed), "fixed.png", "image/png")
+    st.sidebar.download_button("DOWNLOAD CLEANSED IMAGE", convert_image(cleansed_image), "cleansed_image.png", "image/png")
 
 col1, col2 = st.columns(2)
 my_upload = st.sidebar.file_uploader("## UPLOAD IMAGE TO BE ATTACKED", type=["png", "jpg", "jpeg"])
