@@ -1,8 +1,7 @@
 import streamlit as st
-from rembg import remove
 from PIL import Image
-from io import BytesIO
-import base64
+#from io import BytesIO
+#import base64
 
 # Providing path to working/project directory
 import os
